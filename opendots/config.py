@@ -158,6 +158,12 @@ def validate_config(raw):
 
 def load_config(path: Path) -> Config:
     path = path.resolve()
+    if not path.exists():
+        raise ValueError(
+            f"Configuration file not found: {path}. "
+            'Create one with `opendots init --workspace <project-dir> --goal "<objective>"`, '
+            "or see `opendots init --help`."
+        )
     raw = json.loads(path.read_text())
     validate_config(raw)
     base = path.parent
